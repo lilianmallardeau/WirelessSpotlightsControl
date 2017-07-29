@@ -1,0 +1,150 @@
+#: import spacing __main__.LoginScreenSpacing
+#: import padding __main__.LoginScreenPadding
+
+<LoginScreen>:
+	name: "loginscreen"
+	server: server
+	port: port
+	BoxLayout:
+		orientation: "vertical"
+		spacing: spacing
+		padding: padding
+		GridLayout:
+			size_hint: 1, .75
+			cols: 2
+			rows: 2
+			spacing: spacing
+			Label:
+				text: "Server Address:"
+			TextInput:
+				id: server
+				multiline: False
+			Label:
+				text: "Server port:"
+			TextInput:
+				id: port
+				multiline: False
+		Button:
+			size_hint: 1, .25
+			text: "Connect !"
+			on_press:
+				app.screenmanager.transition.direction = 'left'
+				app.connect(root.server.text, root.port.text)
+<PasswordScreen>:
+	name: "password"
+	password: password
+	BoxLayout:
+		padding: padding
+		spacing: spacing
+		orientation: "vertical"
+		BoxLayout:
+			orientation: "horizontal"
+			spacing: spacing
+			Label:
+				text: "Server password:"
+			TextInput:
+				id: password
+				multiline: False
+				password: True
+		Button:
+			text: "Connect !"
+			on_press: app.authentify(root.password.text)
+		Button:
+			text: "Back"
+			on_press:
+				app.screenmanager.transition.direction = "right"
+				app.loginScreen()
+<ConnectionErrorScreen>:
+	name: "connection_error"
+	BoxLayout:
+		orientation: "vertical"
+		padding: 100
+		Label:
+			text: root.text
+		Button:
+			text: root.buttontext
+			on_press: app.loginScreen()
+<SynchronisingScreen>:
+	name: "synchro"
+	BoxLayout:
+		Label:
+			text: "Synchronising with server..."
+<CreateFixtureScreen>:
+	name: "createfxt"
+	fxt_name: fxt_name
+	brand: brand
+	type: type
+	fxt_id: fxt_id
+	univ: univ
+	addr: addr
+	channel_name: channel_name
+	channel_default_value: channel_default_value
+	add_chnl_button: add_chnl_button
+	BoxLayout:
+		orientation: "vertical"
+		padding: 20
+		GridLayout:
+			cols: 2
+			Label:
+				text: "Name:"
+			TextInput:
+				id: fxt_name
+				multiline: False
+			Label:
+				text: "Brand:"
+			TextInput:
+				id: brand
+				multiline: False
+			Label:
+				text: "Type:"
+			TextInput:
+				id: type
+				multiline: False
+		GridLayout:
+			cols: 2
+			Label:
+				text: "Id:"
+			TextInput:
+				id: fxt_id
+				multiline: False
+			Label:
+				text: "Universe:"
+			TextInput:
+				id: univ
+				multiline: False
+			Label:
+				text: "DMX Address:"
+			TextInput:
+				id: addr
+				multiline: False
+		BoxLayout:
+			orientation: "vertical"
+			padding: 20
+			GridLayout:
+				size_hint: 1, 2/3
+				cols: 2
+				Label:
+					text: "Channel name:"
+				TextInput:
+					id: channel_name
+					multiline: False
+				Label:
+					text: "Default value:"
+				TextInput:
+					id: channel_default_value
+					multiline: False
+			Button:
+				id: add_chnl_button
+				size_hint: 1, 1/3
+				text: "Add channel 1"
+				on_press: root.add_channel()
+		BoxLayout:
+			orientation: "vertical"
+			Button:
+				text: "Add Fixture"
+				on_press: root.createfxt()
+			Button:
+				text: "Back"
+				on_press:
+					root.reset()
+					app.mainScreen()
